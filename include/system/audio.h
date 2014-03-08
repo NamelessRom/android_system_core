@@ -774,12 +774,14 @@ static inline bool audio_is_valid_format(audio_format_t format)
     case AUDIO_FORMAT_EVRCNW:
 #endif
         return true;
+#ifdef QCOM_HARDWARE
     case AUDIO_FORMAT_PCM_OFFLOAD:
         if (format != AUDIO_FORMAT_PCM_16_BIT_OFFLOAD &&
                 format != AUDIO_FORMAT_PCM_24_BIT_OFFLOAD) {
             return false;
         }
         return true;
+#endif
     default:
         return false;
     }
