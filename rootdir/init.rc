@@ -564,7 +564,7 @@ service mtpd /system/bin/mtpd
     class main
     socket mtpd stream 600 system system
     user vpn
-    group vpn net_admin inet net_raw
+    group vpn net_admin inet net_raw system
     disabled
     oneshot
 
