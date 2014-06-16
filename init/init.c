@@ -1180,8 +1180,7 @@ int main(int argc, char **argv)
     is_charger = (!strcmp(bootmode, "charger") || !strcmp(bootchg, "true"));
 
     INFO("property init\n");
-    if (!is_charger)
-        property_load_boot_defaults();
+    property_load_boot_defaults();
 
     INFO("reading config file\n");
 
@@ -1228,7 +1227,6 @@ int main(int argc, char **argv)
      * wasn't ready immediately after wait_for_coldboot_done
      */
     queue_builtin_action(mix_hwrng_into_linux_rng_action, "mix_hwrng_into_linux_rng");
-
     queue_builtin_action(property_service_init_action, "property_service_init");
     queue_builtin_action(signal_init_action, "signal_init");
     queue_builtin_action(check_startup_action, "check_startup");
@@ -1238,11 +1236,11 @@ int main(int argc, char **argv)
     if (strcmp(battchg_pause, BOARD_CHARGING_CMDLINE_VALUE) == 0)
         is_charger = 1;
 
+    /* Don't mount filesystems or start core system services if in charger mode. */
     if (is_charger) {
         action_for_each_trigger("charger", action_add_queue_tail);
     } else {
-        action_for_each_trigger("early-boot", action_add_queue_tail);
-        action_for_each_trigger("boot", action_add_queue_tail);
+        action_for_each_trigger("late-init", action_add_queue_tail);
     }
 
         /* run all property triggers based on current state of the properties */
