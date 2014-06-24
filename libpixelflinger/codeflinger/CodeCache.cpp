@@ -201,9 +201,13 @@ int CodeCache::cache(  const AssemblyKeyBase& keyBase,
         mCacheInUse += assemblySize;
         mWhen++;
         // synchronize caches...
-        void* base = assembly->base();
-        void* curr = (uint8_t*)base + assembly->size();
-        __builtin___clear_cache(base, curr);
+#if defined(__arm__) || defined(__mips__)
+        const long base = long(assembly->base());
+        const long curr = base + long(assembly->size());
+        err = cacheflush(base, curr, 0);
+        ALOGE_IF(err, "cacheflush error %s\n",
+                 strerror(errno));
+#endif
     }
 
     pthread_mutex_unlock(&mLock);
