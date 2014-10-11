@@ -123,6 +123,15 @@ boot
    Triggers of this form occur when the property <name> is set
    to the specific value <value>.
 
+   One can also test Mutliple properties to execute a group
+   of commands. For example:
+
+   on property:test.a=1 && property:test.b=1
+       setprop test.c 1
+
+   The above stub sets test.c to 1 only when
+   both test.a=1 and test.b=1
+
 device-added-<path>
 device-removed-<path>
    Triggers of these forms occur when a device node is added
@@ -130,7 +139,6 @@ device-removed-<path>
 
 service-exited-<name>
    Triggers of this form occur when the specified service exits.
-
 
 Commands
 --------
