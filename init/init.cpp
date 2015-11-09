@@ -90,6 +90,10 @@ bool waiting_for_exec = false;
 
 static int epoll_fd = -1;
 
+#if TARGET_NEEDS_PRE_INIT
+extern int start_pre_init();
+#endif
+
 void register_epoll_handler(int fd, void (*fn)()) {
     epoll_event ev;
     ev.events = EPOLLIN;
@@ -1104,6 +1108,12 @@ int main(int argc, char** argv) {
 
     property_load_boot_defaults();
     start_property_service();
+
+#if TARGET_NEEDS_PRE_INIT
+    if (start_pre_init()) {
+        ERROR("start_pre_init has failed!");
+    }
+#endif
 
     init_parse_config_file("/init.rc");
 
