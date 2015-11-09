@@ -64,6 +64,10 @@ ifneq ($(TARGET_IGNORE_RO_BOOT_SERIALNO),)
 LOCAL_CFLAGS += -DIGNORE_RO_BOOT_SERIALNO
 endif
 
+ifeq ($(TARGET_NEEDS_PRE_INIT),true)
+LOCAL_CFLAGS += -DTARGET_NEEDS_PRE_INIT
+endif
+
 LOCAL_MODULE:= init
 LOCAL_C_INCLUDES += \
     system/extras/ext4_utils \
